@@ -1,0 +1,24 @@
+{
+  "name": "buy-the-colors-websockets",
+  "version": "1.0.0",
+  "description": "This server communicates with a browser-based board game application when: * A player is \"registering\" by providing their player name and waiting on other players * At the end of every player turn, the game state is sent from the browser-based application to this server, and then this server broadcasts that (updated) game state to all players * Maintaining a list of active and inactive players * Reconnecting inactive players",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node buyTheColors-ws.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "ws": "^8.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cdaniel3/buy-the-colors-websockets.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cdaniel3/buy-the-colors-websockets/issues"
+  },
+  "homepage": "https://github.com/cdaniel3/buy-the-colors-websockets#readme"
+}

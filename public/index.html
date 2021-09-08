@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Buy The Colors</title>
+  <script src="buythecolors.js"></script>
+  <link rel="stylesheet" href="buythecolors.css">
+</head>
+<body>
+  <div id="buyTheColors"></div>
+  <!-- <div>Testing <button onClick="reconnect();">reconnect</button></div>-->
+  <script>
+    var app = Elm.BuyTheColors.init({
+      node: document.getElementById('buyTheColors')
+    });
+
+    const host = location.origin.replace(/^http/, 'ws');
+    var socket = new WebSocket(host);
+
+    // Send gameState FROM Elm to websockets and/or js function
+    app.ports.sendMessage.subscribe(function(message) {
+      console.log("outgoing", message);
+      if (socket.readyState == 0) {
+        socket.onopen = function(event) {
+          socket.send(message);
+        };
+      } else if (socket.readyState == 1) {
+        socket.send(message);
+      }
+      
+    });
+
+    // Send gameState TO Elm using websocket
+    socket.addEventListener("message", function(event) {
+      console.log("incoming", event.data);
+      app.ports.messageReceiver.send(JSON.parse(event.data));      
+    });
+
+    // socket.addEventListener("close", function(event) {
+    //   console.log('Socket is closed. Reconnecting in 1 second...' + event.reason);
+    //   setTimeout(function() {
+    //     reconnect();
+    //   }, 1000);
+    // });
+
+    // function reconnect() {
+    //   let name = window.prompt('Reconnecting.. re-enter your name');
+    //   socket = new WebSocket(host);
+    //   let reconnectData = {};
+    //   reconnectData.op = "reconnect";
+    //   reconnectData.data = name;
+      
+    //   if (socket.readyState == 0) {
+    //     socket.onopen = function(event) {
+    //       socket.send(JSON.stringify(reconnectData));
+    //     };
+    //   } else if (socket.readyState == 1) {
+    //     socket.send(JSON.stringify(reconnectData));
+    //   }
+    // }
+
+  </script>
+</body>
+</html>
